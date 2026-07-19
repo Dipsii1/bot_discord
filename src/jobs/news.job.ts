@@ -33,7 +33,7 @@ async function runJob(): Promise<void> {
     }
 
     const allItems = ok.flatMap((o) => o.items);
-    const sent = await processNewItems(allItems);
+    const sent = await processNewItems(allItems, { translateOn: false });
     log('job', `Cycle done in ${Date.now() - start}ms`, { fetched: allItems.length, sent, failed: failed.length });
   } catch (e) {
     error('job', 'Unexpected error in job', e);

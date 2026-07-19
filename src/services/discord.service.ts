@@ -4,7 +4,6 @@ import { CATEGORY_COLORS, CATEGORY_EMOJI } from '../config/sources';
 import { getCategoryChannel } from '../config/env';
 import { log, error } from '../utils/logger';
 import { truncate } from '../utils/text';
-import { translate } from '../utils/translate';
 
 let client: Client<true>;
 
@@ -41,15 +40,10 @@ export async function sendNews(item: {
   const color = CATEGORY_COLORS[cat] ?? 0x64748b;
   const emoji = CATEGORY_EMOJI[cat] ?? '';
 
-  const [titleId, summaryId] = await Promise.all([
-    translate(item.title),
-    translate(truncate(item.summary, 500))
-  ]);
-
   const embed = new EmbedBuilder()
-    .setTitle(`${emoji} ${titleId}`)
+    .setTitle(`${emoji} ${item.title}`)
     .setURL(item.link)
-    .setDescription(summaryId)
+    .setDescription(truncate(item.summary, 500))
     .setColor(color)
     .addFields(
       { name: '📰 Sumber', value: item.source, inline: true },
